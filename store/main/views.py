@@ -64,19 +64,6 @@ def category_product_list(request, cat_id):
     })
 
 # Filter Data
-def filter_data(request):
-    categories = request.GET.getlist('category[]')
-    minPrice = request.GET['minPrice']
-    maxPrice = request.GET['maxPrice']
-    allProducts = Product.objects.all().order_by('-id').distinct()
-    allProducts = allProducts.filter(price__gte=minPrice)
-    allProducts = allProducts.filter(price__lte=maxPrice)
-
-    if len(categories) > 0:
-        allProducts = allProducts.filter(
-            category__id__in=categories).distinct()
-    t = render_to_string('main/ajax/product-list.html', {'data': allProducts})
-    return JsonResponse({'data': t})
 
     
 def search(request):

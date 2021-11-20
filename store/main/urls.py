@@ -9,7 +9,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('main/signup',views.Signup, name='signup'),
     path('category-product-list/<int:cat_id>',views.category_product_list,name='category-product-list'),
-    path('filter-data',views.filter_data,name='filter_data'),
     path('search',views.search,name='search'),
     path('product/<str:slug>/<int:id>',views.product_detail,name='product_detail'),
     path('accounts/profile/',views.profile, name='profile'),
