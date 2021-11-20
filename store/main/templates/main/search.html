@@ -1,0 +1,162 @@
+{% extends 'main/base.html' %} {% block title %}Products List - {% endblock %}
+{% load static %} {% block content %}
+<style type="text/css">
+
+    @media screen and (max-width: 800px) {
+        #border1{
+            width:33% !important;
+            padding:5px;
+        }
+    }
+    @media screen and (max-width: 500px) {
+        #border1{
+            width:50% !important;
+            padding:5px;
+        }
+    }
+
+</style>
+
+
+{% if data %}
+<main
+  class="container-fluid my-4"
+  style="
+    
+    background-color: white;
+    
+  "
+>
+  <h3 class="my-4 border-bottom pb-1" style="">
+    <span class="text-muted" style="">Search result for</span> {{request.GET.q}}
+  </h3>
+  <div class="row">
+    <div class="col-md-12">
+      <div
+        class=""
+        style="
+          position: relative;
+          display: -ms-flexbox;
+          display: inline-flex;
+          flex-direction: row;
+          min-width: 0;
+          word-wrap: break-word;
+          background-color: white;
+          border-radius: 0.25rem;
+          flex-wrap: nowrap;
+          align-content: space-around;
+          justify-content: space-evenly;
+          align-items: stretch;
+          width: 100%;
+        "
+      >
+        <!-- Products -->
+        <div class="" style="width: 50%; background-color: white">
+          <h3 class="text-center" style="">Products</h3>
+        </div>
+
+      </div>
+
+      <div class="row" id="filteredProducts" style="padding: 10px">
+        <p class="ajaxLoader">Loading...</p>
+        <div
+          class="products"
+          style="
+            display: inline-flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+          "
+        >
+         {% for product in data%}
+    <div class="d-md-flex flex-md-equal card " id="border1" style="width:33%; height:300px; padding:5px; border-radius:0px;">
+      <div class="text-center text-white overflow-hidden" style="width:100%;">
+        <a href="/product/{{product.slug}}/{{product.id}}" style="text-decoration: none; color:white;" class="display-5">
+        <img src="{{ product.image1.url}} " class="" style="width: 100%; height: 200px;">
+          <div class="">
+          <h5 style="color:black;" class="display-5">{{ product.title }}</h5></a>
+          <h4 style="color:black;" class="product-price-{{product.id}} display-5">Rs.{{ product.price }}</h4>
+                  <div class="">
+                
+                <input
+                  type="hidden"
+                  class="product-id-{{product.id}}"
+                  value="{{product.id}}"
+                />
+                <input
+                  type="hidden"
+                  class="product-title-{{product.id}}"
+                  value="{{product.title}}"
+                />
+              </div>
+
+        </div>
+      </div>
+
+
+    </div>
+{% endfor %}
+        </div>
+      </div>
+
+    </div>
+    <!-- Filters -->
+
+  </div>
+
+  <!-- Trigger the modal with a button -->
+
+  <div class="container" style="background-color: white !important">
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="myModal"
+      role="dialog"
+      style="background-color: white !important"
+    >
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color: white !important">
+          <div class="modal-header" style="">
+            <h4 class="modal-title">Filter</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="col">{% include 'main/filters.html' %}</div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn"
+              data-dismiss="modal"
+              style="background-color: blue"
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endif %}
+<script type="text/javascript">
+  if (document.body.offsetWidth < 768) {
+    document.body.style.backgroundColor = "";
+    document.getElementById("filterproduct").innerHTML = `	
+<br>
+
+`;
+  }
+</script>
+<script type="text/javascript">
+  if (document.body.offsetWidth > 768) {
+    document.body.style.backgroundColor = "";
+    document.getElementById("filterbutton").innerHTML = `	
+<br>
+
+`;
+  }
+</script>
+{% endblock %}

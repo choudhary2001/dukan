@@ -1,0 +1,271 @@
+
+{% extends 'main/base.html' %}
+{% block title %}{{request.user.first_name}} - {% endblock %}
+{% load static %}
+
+{% block head %}
+
+
+
+<style>
+
+.profile-page .page-header {
+    height: 250px;
+    background-position:center;
+}
+
+
+.header-filter:after, .header-filter:before {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+    left: 0;
+    top: 0;
+    content: "";
+}
+
+.header-filter::before {
+    background: rgba(0,0,0,.5);
+}
+
+.main-raised {
+    
+    border-radius: 6px;
+  }
+
+.main {
+    background: #FFF;
+    position: relative;
+    z-index: 3;
+}
+
+.profile-page .profile {
+    text-align: center;
+}
+
+.profile-page .profile img {
+    max-width: 160px;
+    width: 100%;
+    margin: 0 auto;
+    -webkit-transform: translate3d(0,-50%,0);
+    -moz-transform: translate3d(0,-50%,0);
+    -o-transform: translate3d(0,-50%,0);
+    -ms-transform: translate3d(0,-50%,0);
+    transform: translate3d(0,-50%,0);
+	height:auto;
+	max-height:160px;
+}
+
+.img-raised {
+    box-shadow: 0 5px 15px -8px rgba(0,0,0,.24), 0 8px 10px -5px rgba(0,0,0,.2);
+}
+
+.rounded-circle {
+    border-radius: 50%!important;
+}
+
+.img-fluid, .img-thumbnail {
+    max-width: 100%;
+    height: auto;
+}
+
+
+.profile-page .description {
+    margin: 1.071rem auto 0;
+    max-width: 600px;
+    color: #999;
+    font-weight: 300;
+}
+
+
+
+.profile-page .profile-tabs {
+    margin-top: 4.284rem;
+}
+
+
+.tab-space {
+    padding: 20px 0 50px;
+}
+
+.profile-page .gallery {
+    margin-top: 3.213rem;
+    padding-bottom: 50px;
+}
+
+.profile-page .gallery img {
+    width: 100%;
+    margin-bottom: 2.142rem;
+}
+
+.profile-page .profile .name{
+    margin-top: -80px;
+}
+
+img.rounded {
+    border-radius: 6px!important;
+}
+
+.tab-content>.active {
+    display: block;
+}
+
+
+
+</style>
+
+
+
+
+{% endblock head %}
+{% block content %}
+
+<body class="profile-page">
+<div class="page-header header-filter" data-parallax="true" style="background-image:url('http://wallpapere.org/wp-content/uploads/2012/02/black-and-white-city-night.png');"></div>
+    <div class="main main-raised">
+		<div class="profile-content">
+            <div class="container-fluid">
+                <div class="row">
+	                <div class="col-md-6 ml-auto mr-auto">
+        	           <div class="profile">
+
+	                        <div class="name">
+	                            <h3 class="title text-center" style="margin-top:35px;">Welcome, {{request.user.first_name}}&nbsp{{request.user.last_name}}!</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+  
+	<!-- Featured Products -->
+    <div class="container" style="padding-bottom:30px;">
+	<h3 class="my-4 text-center">My Dashboard</h3>
+
+
+
+    </div>
+    </div>
+    </div>
+
+
+
+
+ <!-- Classic tabs -->
+        <div class="classic-tabs border rounded  pt-1">
+
+          <ul class="nav tabs-primary nav-justified" id="advancedTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active show" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Order</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Reviews</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="advancedTabContent">
+            <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab"> 
+             		<div class="col-md-12  table-responsive">
+                     <hr>
+
+
+    
+{% if orders %}
+
+  
+
+<div class="container">
+<h3 class="my-4 text-center">Order</h3>
+			        <div
+          class="table-responsive card shadow"
+          style="border-color: blue; border-width: 1px; border-radius:0px;"
+        >
+          <table class="table table-bordered ">
+					<thead>
+						<tr>
+							
+							<th class="text-center">Item</th>
+                            <th class="text-center">Image</th>
+							<th class="text-center">Qty</th>
+							<th class="text-center" >Price</th>
+							<th class="text-center">Paid Status</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in orders %}
+						<tr>
+							<td class="text-center"><a href="/product/{{item.product.slug}}/{{item.product.id}}">{{item.product.title}}</a></td>
+							<td class="text-center">
+								<p><img src="/media/{{item.product.image1}}" width="80" /></p>
+								{{item.product.item}}
+							</td>
+							<td class="text-center">{{item.product.quantity}}</td>
+							<td class="text-center">{{item.product.price}}</td>
+							<td class="text-center">{{item.user_paid}}</td>
+                            
+			
+        
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	
+{% endif %}
+
+
+                     </div>
+            </div>
+
+            <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+           
+
+    
+	{% if reviews %}
+     <hr>
+<h3 class="my-4 text-center">Review</h3>
+			<div class="table-responsive container card" style="margin-top:25px;  border-left-color: blue;border-left-width: 5px; border-radius:0px;">
+            
+				<table class="table-bordered table">
+					<thead>
+						<tr>
+							<th class="text-center">Title</th>
+							<th class="text-center">Image</th>
+							<th class="text-center">Price</th>
+							<th class="text-center">ReviewText</th>
+							<th class="text-center">ReviewRating</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for review in reviews %}
+						<tr>
+							<td class="text-center"><a href="/product/{{review.product.slug}}/{{review.product.id}}">{{review.product.title}}</a></td>
+							<td class="text-center">
+								<img width="100" src="/media/{{review.product.image1}}" alt="{{review.product.title}}">
+							</td>
+							<td class="text-center">{{review.product.price}}</td>
+							<td class="text-center">{{review.review_text}}</td>
+							<td class="text-center">{{review.review_rating}}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+{% endif %}
+
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+</body>
+{% endblock %}
+

@@ -1,0 +1,103 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Cart | {% endblock %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+    <h1 class="title text-center">Cart</h1>
+
+    {% if cart %}
+        <div class="container">
+            <div class="card table table-responsive">
+                <table class="table is-fullwidth ">
+                    <thead>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Remove</th>
+                    </thead>
+
+                    <tbody>
+                        {% for item in cart %}
+                            <tr>
+                                <td>
+                                    <figure >
+                                        <img class="img-fluid" style="width:80px; border-radius:20px;" src="../media/{{ item.product.image1 }}">
+                                    </figure>
+                                </td>
+                                <td>
+                                    <a href="{% url 'product_detail' item.product.slug item.product.id %}">{{ item.product.title }}</a>
+                                </td>
+                                <td>
+                                    
+
+                                    <a style='text-decoration:none;' href="?change_quantity={{ item.id }}&quantity=-1">-</a>
+                                    &nbsp{{ item.quantity }}&nbsp
+                                    <a style='text-decoration:none;' href="?change_quantity={{ item.id }}&quantity=1">+</a>
+                                </td>
+                                <td>${{ item.total_price }}</td>
+                                <td><a style="text-decoration:none; color:red;" href="?remove_from_cart={{ item.id }}" class="delete text-center">X</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td><strong>Total cost</strong></td>
+                            <td><strong>{{ cart|length}}</strong></td>
+                            <td colspan="2"><strong>${{ cart.get_total_cost }}</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+
+        <h2 class="subtitle text-center">Contact information</h2>
+
+        <form method="post" action="." id="payment-form">
+            {% csrf_token %}    
+
+            {% if form.non_field_errors %}
+                <div class="notification is-danger">
+                    {{ form.non_field_errors}}
+                </div>
+            {% endif %}
+
+            {% if form.errors %}
+                <div class="notification is-danger">
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li><strong>{{ field.label }}: </strong>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            <div class="container my-4" style="margin-top:80px !important; background-color:white; border-color:white;">
+
+	
+            <div class="card mt-4 mb-4 ml-auto mr-auto " style="border-color:white;" >
+            {{ form|crispy }}
+            
+            <div class="field">
+                <div class="control">
+                    <button type="submit" class="btn btn-primary btn-block">checkout</button>
+                </div>
+            </div>
+            </div>
+            </div>
+        </form>
+
+
+
+    {% else %}
+        <p class="text-center">You don't have any products in your cart!</p>
+    {% endif %}
+
+
+{% endblock %}
+    
